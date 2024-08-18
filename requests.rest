@@ -1,0 +1,26 @@
+POST http://localhost:8888/track
+content-type: application/json
+
+[
+  {
+    "event": "synthetic-event",
+    "tags": ["hello", "world"],
+    "url": "requests.rest",
+    "title": "test",
+    "qwe": 123,
+    "ts": 0
+  }
+]
+
+###
+
+POST http://localhost:8888/track
+content-type: application/json
+
+[
+  {
+    "event": "error",
+    "url": "requests.rest",
+    "ts": 0
+  }
+]
