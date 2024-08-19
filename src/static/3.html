@@ -1,8 +1,40 @@
 <html>
     <head>
         <title>My website</title>
-        <script src="http://localhost:8888/tracker"></script>
         <script>
+            (function (window, document, scriptUrl, trackerName) {
+                // placeholder for tracker
+                window[trackerName] = window[trackerName] || {};
+
+                // to track events before actual tracker
+                var buffer = [];
+
+                // temp track method
+                window[trackerName].track = function () {
+                    buffer.push(arguments);
+                };
+
+                // load tracker async
+                var script = document.createElement('script');
+                var firstScript = document.getElementsByTagName('script')[0];
+                script.async = true;
+                script.src = scriptUrl;
+
+                // process all events, when script loaded
+                script.onload = function () {
+                    for (var i = 0; i < buffer.length; i++) {
+                        window[trackerName].track.apply(
+                            window[trackerName],
+                            buffer[i]
+                        );
+                    }
+                    buffer = [];
+                };
+
+                // add script to the DOM
+                firstScript.parentNode.insertBefore(script, firstScript);
+            })(window, document, 'http://localhost:8888/tracker', 'tracker');
+
             tracker.track('pageview');
             tracker.track('test', 'one', 'two', 'three');
         </script>
