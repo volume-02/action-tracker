@@ -34,5 +34,4 @@ module.exports = {
     },
     plugins: [new webpack.DefinePlugin(envKeys)],
     mode: 'production',
-    watch: true,
 };
