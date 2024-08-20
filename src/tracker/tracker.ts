@@ -30,9 +30,7 @@ export class Tracker implements ITracker {
 
         const now = Date.now();
         if (this.buffer.length >= 3 || now - this.lastSendAttempt >= 1000) {
-            this.sending = true;
             this.sendEvents();
-            this.lastSendAttempt = Date.now();
         }
     }
 
@@ -48,21 +46,22 @@ export class Tracker implements ITracker {
 
     private bufferFlush() {
         if (this.buffer.length > 0) {
-            this.sending = false;
             this.attemptSend();
         }
     }
 
     private async sendEvents(): Promise<void> {
         if (this.buffer.length === 0) {
-            this.sending = false;
             return;
         }
+
+        this.sending = true;
 
         // for concurency safety
         const events = [...this.buffer];
         this.buffer = [];
 
+        this.lastSendAttempt = Date.now();
         try {
             const response = await fetch(this.endpoint, {
                 method: 'POST',

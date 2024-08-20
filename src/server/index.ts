@@ -19,7 +19,7 @@ trackerApp.use(express.text());
 trackerApp.use(cors());
 trackerApp.use('/', trackerRoutes);
 
-const trackerPort = process.env.PORT || 8000;
+const trackerPort = process.env.PORT || 8888;
 
 trackerApp.listen(trackerPort, () =>
     console.log(`Listening at http://localhost:${trackerPort}`)
@@ -32,7 +32,7 @@ staticApp.use(express.json());
 staticApp.use(express.static(path.join(__dirname, '../static')));
 staticApp.use('/', staticRoutes);
 
-const staticPort = process.env.FRONT_PORT || 8000;
+const staticPort = process.env.FRONT_PORT || 50000;
 
 staticApp.listen(staticPort, () => {
     console.log(`Listening at http://localhost:${staticPort}`);
